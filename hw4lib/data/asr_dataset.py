@@ -160,7 +160,7 @@ class ASRDataset(Dataset):
                 time_len = feat_tensor.shape[1]  # number of time steps
                 self._count += time_len
                 batch_count = feat_tensor.shape[1]     # number of time steps
-                count += batch_count
+                self._count += batch_count
                 
                 # Update mean and M2 for all time steps at once
                 delta = feat_tensor - self._mean.unsqueeze(1)  # (num_feats, time)
@@ -201,7 +201,7 @@ class ASRDataset(Dataset):
                 self.global_mean, self.global_std = global_stats
             else:
                 # Compute variance and standard deviation
-                variance = self._M2/(count - 1)
+                variance = self._M2/(self._count - 1)
                 self.global_std = torch.sqrt(variance + 1e-8).float()
                 self.global_mean = self._mean.float()
 
